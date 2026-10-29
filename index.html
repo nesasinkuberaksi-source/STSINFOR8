@@ -1,0 +1,874 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#091937">
+<title>Ulangan Informatika</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+:root{--blue:#155eef;--dark:#14213d}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Poppins,Arial,sans-serif;color:var(--dark);min-height:100vh;background:#091937;position:relative;isolation:isolate}
+body:before,body:after,.background-slides,.background-extra{content:"";position:fixed;inset:0;pointer-events:none;background-position:center;background-size:cover;background-repeat:no-repeat}
+body:before,body:after{z-index:-3;background-image:linear-gradient(135deg,#091937c7,#144b9194),url('beatrix.png')}
+body:before{animation:bgA 36s infinite}
+body:after{background-image:linear-gradient(135deg,#091937c7,#144b9194),url('sele.png');animation:bgB 36s infinite;opacity:0}
+.background-slides,.background-extra{z-index:-4}
+.background-slides{background-image:linear-gradient(135deg,#091937c7,#144b9194),url('vexa.png');animation:bgC 36s infinite}
+.background-extra{opacity:0}
+.background-four{background-image:linear-gradient(135deg,#091937c7,#144b9194),url('pharsa.png');animation:bgD 36s infinite}
+.background-five{background-image:linear-gradient(135deg,#091937c7,#144b9194),url('mid.png');animation:bgE 36s infinite}
+.background-six{background-image:linear-gradient(135deg,#091937c7,#144b9194),url('lunok.png');animation:bgF 36s infinite}
+@keyframes bgA{0%,15%{opacity:1;transform:scale(1)}17%,98%{opacity:0;transform:scale(1.08)}100%{opacity:1}}
+@keyframes bgB{0%,15%{opacity:0}17%,32%{opacity:1}34%,100%{opacity:0}}
+@keyframes bgC{0%,32%{opacity:0}34%,49%{opacity:1}51%,100%{opacity:0}}
+@keyframes bgD{0%,49%{opacity:0}51%,65%{opacity:1}67%,100%{opacity:0}}
+@keyframes bgE{0%,65%{opacity:0}67%,82%{opacity:1}84%,100%{opacity:0}}
+@keyframes bgF{0%,82%{opacity:0}84%,98%{opacity:1}100%{opacity:0}}
+button,input,select{font:inherit}
+button{border:0;cursor:pointer;transition:.2s}
+button:hover{transform:translateY(-2px)}
+button:disabled{opacity:.55;cursor:not-allowed;transform:none}
+#binaryRain{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;opacity:.38}
+.container{position:relative;z-index:1;width:min(calc(100% - 28px),960px);margin:25px auto}
+.hero{text-align:center;color:white;padding:28px 12px 20px;animation:appear .7s ease}
+.symbol{width:70px;height:70px;display:grid;place-items:center;margin:0 auto 12px;border-radius:22px;background:#ffffff29;border:1px solid #ffffff4d;font-size:34px}
+.hero h1{margin:0;font-size:clamp(25px,5vw,39px);line-height:1.25}
+.hero p{margin:10px 0 0}
+.panel{background:#fffffff7;border-radius:22px;padding:clamp(18px,4vw,30px);margin-bottom:20px;box-shadow:0 16px 50px #0003;animation:appear .5s ease}
+h2{margin-top:0}
+.subtitle{color:#63708a;font-size:14px;margin-top:-8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.field label{display:block;font-weight:600;font-size:13px;margin-bottom:7px}
+.field input,.field select{width:100%;padding:12px 13px;border:1px solid #d6deec;border-radius:11px;outline:none;background:white}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:12px 18px;border-radius:12px;font-weight:700;font-size:14px}
+.primary{color:white;background:var(--blue)}
+.secondary{color:#1e3a8a;background:#e8efff}
+.full{width:100%;margin-top:20px}
+.notice{margin-top:15px;padding:12px 14px;border-radius:12px;background:#fff7df;color:#7a4a00;font-size:12px;line-height:1.7}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.pill{padding:9px 13px;border-radius:999px;font-weight:700;font-size:13px;background:#edf2ff}
+.timer{color:#c62828;background:#fff0f0;font-size:17px}
+.progress-track{width:100%;height:8px;background:#e7ebf3;border-radius:99px;overflow:hidden;margin:12px 0 23px}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#155eef,#56a4ff);transition:width .25s}
+.question{border:1px solid #e1e7f0;border-radius:15px;padding:18px;margin-bottom:16px;scroll-margin-top:15px}
+.question h3{font-size:15px;line-height:1.7;margin:0 0 13px}
+.options{display:grid;gap:9px}
+.option{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border:1px solid #e0e6f0;border-radius:11px;cursor:pointer;font-size:13px;line-height:1.6}
+.option:hover{background:#f4f7ff;border-color:#9ab8ff}
+.option.selected{background:#eaf1ff;border-color:var(--blue)}
+.option input{margin-top:5px;accent-color:var(--blue)}
+.actions{display:flex;flex-wrap:wrap;gap:10px}
+.actions .btn{flex:1;min-width:135px}
+.result-head{text-align:center;padding:10px 0 20px}
+.score-circle{width:145px;height:145px;margin:18px auto;display:grid;place-items:center;border-radius:50%;background:linear-gradient(145deg,#e4edff,#c5d9ff);border:8px solid white;outline:2px solid #b8ccff}
+.score-circle strong{display:block;font-size:42px;line-height:1.1;color:var(--blue)}
+.score-circle span{font-size:12px;color:#53617b}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:20px 0}
+.stat{padding:15px 7px;border-radius:13px;background:#f3f6fb;text-align:center}
+.stat strong{display:block;font-size:23px}
+.stat span{font-size:11px;color:#65718a}
+.student-info{background:#f7f9fc;border-radius:12px;padding:14px;font-size:13px;line-height:2;overflow-wrap:anywhere}
+.music-button{position:fixed;bottom:16px;right:16px;z-index:10;border-radius:999px;color:white;background:#14213d;padding:12px 16px;box-shadow:0 5px 20px #0003;font-size:12px;font-weight:700}
+.footer{color:white;text-align:center;font-size:11px;padding:8px 10px 30px;opacity:.85}
+.hidden{display:none!important}
+#focusWarning{display:none;border:1px solid #f59e0b;background:#fff7df;color:#7a4a00;border-radius:12px;padding:12px 14px;margin:12px 0;font-size:12px;line-height:1.7}
+@keyframes appear{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:600px){.container{width:calc(100% - 18px);margin:10px auto}.hero{padding:24px 8px 17px}.symbol{width:58px;height:58px;font-size:28px}.grid{grid-template-columns:1fr;gap:12px}.panel{border-radius:17px;padding:17px 13px}.question{padding:14px 11px}.question h3{font-size:14px}.option{font-size:12px;padding:10px}.stats{gap:6px}.stat strong{font-size:20px}.stat span{font-size:10px}.actions .btn{min-width:100%}.music-button{bottom:10px;right:10px}#binaryRain{opacity:.27}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}#binaryRain{display:none}}
+@media print{body{background:white!important;color:black}body:before,body:after,.background-slides,.background-extra,#binaryRain,.hero,.music-button,.footer,#setup,#quiz,.actions,.notice{display:none!important}.container{width:100%;margin:0}.panel{box-shadow:none;border:none;padding:0}#resultArea{display:block!important}.student-info,.stat{border:1px solid #ddd}}
+
+/* =========================================
+   RED MATRIX — SYSTEM HACKED EXAM WARNING
+   ========================================= */
+
+#hackedWarning,
+#hackedWarning * {
+  box-sizing: border-box;
+}
+
+#hackedWarning {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 18px;
+  background: #030303;
+  color: #fff;
+  font-family: "Courier New", monospace;
+  isolation: isolate;
+}
+
+#hackedWarning.active {
+  display: flex;
+  animation: matrixAppear .35s ease-out both;
+}
+
+#binaryRain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -3;
+  pointer-events: none;
+  opacity: .72;
+}
+
+.hacked-grid {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,0,0,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,0,0,.08) 1px, transparent 1px);
+  background-size: 35px 35px;
+  mask-image: linear-gradient(to bottom, transparent, black 25%, black 80%, transparent);
+}
+
+.hacked-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center,
+      transparent 15%,
+      rgba(0,0,0,.45) 65%,
+      #000 100%);
+}
+
+.hacked-scanlines {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: .22;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(255,0,0,.22) 4px
+  );
+  animation: scanMove 7s linear infinite;
+}
+
+.hacked-card {
+  position: relative;
+  z-index: 5;
+  width: min(100%, 660px);
+  max-height: 94vh;
+  overflow-y: auto;
+  padding: clamp(20px, 5vw, 38px);
+  text-align: center;
+  background: rgba(8, 3, 3, .93);
+  border: 1px solid #ff2525;
+  outline: 1px solid rgba(255,0,0,.15);
+  outline-offset: 7px;
+  box-shadow:
+    0 0 20px rgba(255,0,0,.55),
+    0 0 70px rgba(255,0,0,.16),
+    inset 0 0 35px rgba(255,0,0,.07);
+  animation: cardPulse 2.2s ease-in-out infinite;
+}
+
+.hacked-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255,40,40,.4);
+  color: #ff5b5b;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.hacked-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.hacked-live-dot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  border-radius: 50%;
+  background: #ff2222;
+  box-shadow: 0 0 12px #ff0000;
+  animation: liveBlink 1s steps(2, start) infinite;
+}
+
+.hacked-emblem {
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 18px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #ff2525;
+  border-radius: 50%;
+  color: #ff3030;
+  font-size: 40px;
+  font-weight: 900;
+  text-shadow: 0 0 16px red;
+  box-shadow: 0 0 25px rgba(255,0,0,.35),
+    inset 0 0 20px rgba(255,0,0,.15);
+  animation: emblemPulse 1.5s infinite;
+}
+
+.hacked-title {
+  margin: 0;
+  color: #ff2929;
+  font-size: clamp(27px, 7vw, 58px);
+  line-height: 1.1;
+  font-weight: 900;
+  letter-spacing: clamp(1px, 1vw, 5px);
+  text-shadow: 0 0 6px #ff0000, 0 0 25px #ff0000;
+  animation: titleGlitch 2.5s infinite;
+}
+
+.hacked-subtitle {
+  margin-top: 13px;
+  color: #ff8c8c;
+  font-size: clamp(11px, 2.7vw, 15px);
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.hacked-divider {
+  width: 85%;
+  height: 1px;
+  margin: 22px auto;
+  background: linear-gradient(90deg, transparent, #ff2525, transparent);
+  box-shadow: 0 0 10px #ff0000;
+}
+
+.hacked-message {
+  margin: 0 auto 18px;
+  max-width: 490px;
+  color: #fff;
+  font-size: clamp(13px, 3.2vw, 17px);
+  line-height: 1.8;
+}
+
+.hacked-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.hacked-stat {
+  padding: 15px 8px;
+  border: 1px solid rgba(255,45,45,.5);
+  background: rgba(255,0,0,.055);
+}
+
+.hacked-stat-label {
+  margin-bottom: 8px;
+  color: #ff8585;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.hacked-stat-value {
+  color: #ff3030;
+  font-size: clamp(23px, 5vw, 32px);
+  font-weight: 900;
+  text-shadow: 0 0 12px rgba(255,0,0,.6);
+}
+
+.hacked-status {
+  margin: 18px 0;
+  padding: 12px;
+  color: #ffadad;
+  border-left: 3px solid #ff2525;
+  background: rgba(255,0,0,.07);
+  font-size: 12px;
+  line-height: 1.7;
+  text-align: left;
+}
+
+.hacked-progress {
+  height: 5px;
+  overflow: hidden;
+  background: #310707;
+  margin: 18px 0;
+}
+
+.hacked-progress-bar {
+  width: 100%;
+  height: 100%;
+  background: #ff2222;
+  box-shadow: 0 0 12px #ff0000;
+  transform-origin: left;
+  animation: progressPulse 2s ease-in-out infinite;
+}
+
+.hacked-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 8px;
+  padding: 13px 20px;
+  border: 1px solid #ff3939;
+  border-radius: 3px;
+  background: linear-gradient(135deg, #a50000, #e40000);
+  color: white;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(255,0,0,.2);
+  transition: background .2s, box-shadow .2s, transform .2s;
+}
+
+.hacked-button:hover {
+  background: #ff1717;
+  box-shadow: 0 0 28px rgba(255,0,0,.6);
+}
+
+.hacked-button:active {
+  transform: scale(.98);
+}
+
+.hacked-footer {
+  margin-top: 18px;
+  color: #8f4444;
+  font-size: 10px;
+  line-height: 1.7;
+  letter-spacing: 1px;
+}
+
+@keyframes matrixAppear {
+  from { opacity: 0; transform: scale(1.025); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes cardPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255,0,0,.4),
+      0 0 60px rgba(255,0,0,.12);
+  }
+  50% {
+    box-shadow: 0 0 32px rgba(255,0,0,.65),
+      0 0 80px rgba(255,0,0,.2);
+  }
+}
+
+@keyframes emblemPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+@keyframes titleGlitch {
+  0%, 92%, 100% { transform: translateX(0); }
+  94% { transform: translateX(-2px); }
+  96% { transform: translateX(2px); }
+  98% { transform: translateX(-1px); }
+}
+
+@keyframes liveBlink {
+  to { opacity: .25; }
+}
+
+@keyframes scanMove {
+  from { background-position: 0 0; }
+  to { background-position: 0 120px; }
+}
+
+@keyframes progressPulse {
+  0%, 100% { opacity: .65; }
+  50% { opacity: 1; }
+}
+
+@media (max-width: 480px) {
+  #hackedWarning { padding: 12px; }
+  .hacked-card { padding: 22px 15px; }
+  .hacked-topline { font-size: 8px; letter-spacing: 1px; }
+  .hacked-stats { gap: 8px; }
+  .hacked-stat { padding: 12px 5px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #hackedWarning *,
+  #hackedWarning *::before,
+  #hackedWarning *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+
+</style>
+</head>
+<body>
+<canvas id="binaryRain" aria-hidden="true"></canvas>
+<div class="background-slides" aria-hidden="true"></div>
+<div class="background-extra background-four" aria-hidden="true"></div>
+<div class="background-extra background-five" aria-hidden="true"></div>
+<div class="background-extra background-six" aria-hidden="true"></div>
+<audio id="bgMusic" src="musik.mp3" loop preload="none"></audio>
+<button class="music-button" id="musicBtn" type="button">♫ Musik: OFF</button>
+
+<div class="container">
+<header class="hero"><div class="symbol">💻</div><h1>ULANGAN INFORMATIKA</h1><p>Berpikir Komputasional • Fungsi • Himpunan</p></header>
+
+<section class="panel" id="setup">
+<h2>📋 Identitas Peserta</h2><p class="subtitle">Isi identitas dengan benar sebelum memulai ujian.</p>
+<div class="grid">
+<div class="field"><label for="studentName">Nama lengkap</label><input id="studentName" type="text" placeholder="Masukkan nama lengkap" autocomplete="name"></div>
+<div class="field"><label for="studentClass">Kelas</label><select id="studentClass"><option value="">-- Pilih kelas --</option><option>VII A</option><option>VII B</option><option>VII C</option><option>VII D</option><option>VIII A</option><option>VIII B</option><option>VIII C</option><option>VIII D</option><option>IX A</option><option>IX B</option><option>IX C</option><option>IX D</option></select></div>
+<div class="field"><label for="examDate">Tanggal ujian</label><input id="examDate" type="date"></div>
+</div>
+<div class="notice"><b>Ketentuan ujian:</b><br>• Jumlah soal: 40 pilihan ganda.<br>• Durasi pengerjaan: 40 menit.<br>• Setiap jawaban benar bernilai 2; nilai maksimal 80.<br>• Jawaban tersimpan otomatis pada browser ini.<br>• Setelah ujian dikumpulkan atau waktu habis, ujian akan terkunci. Pengulangan membutuhkan kode izin guru.</div>
+<button class="btn primary full" id="startBtn" type="button">🚀 MULAI UJIAN</button>
+</section>
+
+<section class="panel hidden" id="quiz">
+<div class="topbar"><span class="pill" id="studentLabel">👤 Peserta</span><span class="pill timer" id="timer">⏱️ 40:00</span></div>
+<div class="topbar"><span id="progressText">Terjawab 0 dari 40 soal</span><span id="progressPercent">0%</span></div>
+<div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+<div id="focusWarning" role="status" aria-live="polite">⚠️ Mode fokus aktif. Tetap di halaman ujian.</div>
+<div id="questions"></div>
+<div class="actions"><button class="btn secondary" id="saveBtn" type="button">💾 Simpan Jawaban</button><button class="btn primary" id="submitBtn" type="button">📨 Kumpulkan Ujian</button></div>
+<p class="subtitle" style="margin-top:15px">Pastikan semua jawaban sudah diperiksa sebelum mengumpulkan ujian.</p>
+</section>
+
+<section class="panel hidden" id="resultArea">
+<div id="captureArea">
+<div class="result-head"><div style="font-size:45px">🏆</div><h2>HASIL ULANGAN INFORMATIKA</h2><p class="subtitle" id="resultMessage">Ujian telah selesai.</p><div class="score-circle"><div><strong id="scoreValue">0</strong><span>NILAI / 80</span></div></div></div>
+<div class="student-info"><b>Nama:</b> <span id="resultName">-</span><br><b>Kelas:</b> <span id="resultClass">-</span><br><b>Tanggal:</b> <span id="resultDate">-</span><br><b>Status:</b> <span id="resultStatus">Selesai</span></div>
+<div class="stats"><div class="stat"><strong id="correctValue">0</strong><span>Jawaban benar</span></div><div class="stat"><strong id="wrongValue">0</strong><span>Jawaban salah</span></div><div class="stat"><strong id="emptyValue">40</strong><span>Tidak dijawab</span></div></div>
+<p style="text-align:center;font-size:12px;color:#64748b">Ulangan Informatika • 40 soal • Setiap jawaban benar bernilai 2</p>
+</div>
+<div class="notice" id="lockNotice">Ujian telah selesai dan terkunci pada browser ini.</div>
+<div class="notice" id="teacherUnlockArea"><b>🔐 IZIN MENGULANG UJIAN</b><br>Jika mendapat izin guru untuk mengulang, masukkan kode yang diberikan guru.<div style="margin-top:12px"><label for="teacherCode" style="display:block;margin-bottom:7px">Kode izin guru</label><input id="teacherCode" type="password" placeholder="Masukkan kode izin guru" autocomplete="off" style="width:100%;padding:12px;border:1px solid #d6deec;border-radius:10px"><button class="btn primary full" id="unlockExamBtn" type="button">🔓 BUKA IZIN MENGULANG</button><p id="unlockMessage" role="status"></p></div></div>
+<div class="actions" style="margin-top:18px"><button class="btn primary" id="imageBtn" type="button">🖼️ Simpan Hasil sebagai Gambar</button><button class="btn secondary" id="printBtn" type="button">🖨️ Cetak / Simpan PDF</button></div>
+</section>
+
+<div id="hackedWarning" role="alertdialog"
+     aria-modal="true"
+     aria-labelledby="hackedTitle">
+  <canvas id="binaryRain"></canvas>
+  <div class="hacked-grid"></div>
+  <div class="hacked-vignette"></div>
+  <div class="hacked-scanlines"></div>
+
+  <div class="hacked-card">
+    <div class="hacked-topline">
+      <span>EXAM SECURITY SYSTEM</span>
+      <span class="hacked-live">
+        <span class="hacked-live-dot"></span>
+        WARNING
+      </span>
+    </div>
+
+    <div class="hacked-emblem">!</div>
+
+    <h1 class="hacked-title" id="hackedTitle">
+      SYSTEM HACKED
+    </h1>
+
+    <div class="hacked-subtitle">
+      ⚠ DETEKSI PERPINDAHAN HALAMAN ⚠
+    </div>
+
+    <div class="hacked-divider"></div>
+
+    <p class="hacked-message">
+      Anda meninggalkan halaman ujian Informatika.
+      Silakan kembali fokus dan lanjutkan ujian dengan tertib.
+    </p>
+
+    <div class="hacked-stats">
+      <div class="hacked-stat">
+        <div class="hacked-stat-label">PELANGGARAN TERDETEKSI</div>
+        <div class="hacked-stat-value" id="hackedCount">1</div>
+      </div>
+      <div class="hacked-stat">
+        <div class="hacked-stat-label">STATUS UJIAN</div>
+        <div class="hacked-stat-value" style="font-size:20px">
+          AKTIF
+        </div>
+      </div>
+    </div>
+
+    <div class="hacked-status">
+      [SECURITY ALERT]<br>
+      Aktivitas perpindahan halaman tercatat pada perangkat ini.
+      Peringatan ini bukan bukti pasti kecurangan.
+    </div>
+
+    <div class="hacked-progress">
+      <div class="hacked-progress-bar"></div>
+    </div>
+
+    <button class="hacked-button" id="returnToExam">
+      ⟵ KEMBALI KE UJIAN
+    </button>
+
+    <div class="hacked-footer">
+      INFORMATIKA • EXAM FOCUS MODE<br>
+      PERINGATAN VISUAL — BUKAN SISTEM PERETASAN
+    </div>
+  </div>
+</div>
+
+<footer class="footer">BY ARJUNA NESASIN</footer>
+</div>
+
+<script>
+'use strict';
+const EXAM_DURATION=40*60*1000;
+const STATE_KEY='ulangan_informatika_state_v3';
+const LOCK_KEY='ulangan_informatika_lock_v3';
+const TEACHER_CODE='GURU2026';
+const $=id=>document.getElementById(id);
+let student={name:'',className:'',date:''},answers={},deadline=0,submitted=false,timerInterval=null,examState=null;
+let focusGuardActive=false,focusViolations=0,lastFocusEvent=0;
+
+const questions=[
+{q:'Berpikir komputasional adalah cara menyelesaikan masalah dengan ....',o:['Menebak jawaban tanpa alasan','Menggunakan langkah-langkah logis dan terstruktur','Menghafalkan semua jawaban','Menghindari masalah yang sulit']},
+{q:'Memecah masalah besar menjadi beberapa masalah kecil disebut ....',o:['Abstraksi','Algoritma','Dekomposisi','Evaluasi']},
+{q:'Menemukan kesamaan dari beberapa masalah disebut ....',o:['Pengenalan pola','Dekomposisi','Pengulangan','Penghapusan']},
+{q:'Memilih informasi penting dan mengabaikan informasi yang tidak diperlukan disebut ....',o:['Simulasi','Pengurutan','Dekomposisi','Abstraksi']},
+{q:'Urutan langkah-langkah logis untuk menyelesaikan masalah disebut ....',o:['Algoritma','Himpunan','Variabel','Data acak']},
+{q:'Contoh algoritma dalam kehidupan sehari-hari adalah ....',o:['Membeli barang tanpa tujuan','Mengikuti langkah-langkah membuat mi instan','Menebak hasil ujian','Mengubah jawaban secara acak']},
+{q:'Perhatikan pola bilangan berikut: 2, 4, 6, 8, .... Angka berikutnya adalah ....',o:['9','10','11','12']},
+{q:'Jika ditemukan kesalahan dalam langkah algoritma, tindakan yang tepat adalah ....',o:['Membiarkannya','Menyembunyikannya','Mengabaikannya','Memeriksa dan memperbaikinya']},
+{q:'Seorang siswa membagi tugas kelompok menjadi mencari materi, menulis laporan, dan membuat presentasi. Kegiatan ini merupakan contoh ....',o:['Dekomposisi','Abstraksi','Pengacakan','Penghapusan data']},
+{q:'Tujuan utama berpikir komputasional adalah ....',o:['Membuat masalah menjadi lebih rumit','Menghindari penggunaan logika','Menyelesaikan masalah secara efektif dan terstruktur','Menghafalkan semua informasi']},
+{q:'Diketahui A = {2, 3, 4, 5} dan B = {3, 4, 5, 6}. Hasil A ∪ B adalah ....',o:['{3, 4, 5}','{2, 3, 4, 5, 6}','{2, 6}','{2, 3, 4, 5}']},
+{q:'Diketahui A = {2, 3, 4, 5} dan B = {3, 4, 5, 6}. Hasil A ∩ B adalah ....',o:['{2, 6}','{2, 3, 4, 5, 6}','{3, 4, 5}','{2, 3}']},
+{q:'Diketahui A = {2, 3, 4, 5} dan B = {3, 4, 5, 6}. Hasil A − B adalah ....',o:['{2}','{6}','{3, 4, 5}','{2, 6}']},
+{q:'Diketahui A = {2, 3, 4, 5} dan B = {3, 4, 5, 6}. Hasil B − A adalah ....',o:['{2}','{3, 4, 5}','{2, 6}','{6}']},
+{q:'Diketahui A = {jeruk, mangga, apel} dan B = {mangga, apel, pisang}. Hasil A ∪ B adalah ....',o:['{mangga, apel}','{jeruk, mangga, apel, pisang}','{jeruk}','{pisang}']},
+{q:'Diketahui A = {jeruk, mangga, apel} dan B = {mangga, apel, pisang}. Hasil A ∩ B adalah ....',o:['{jeruk, pisang}','{jeruk, mangga}','{mangga, apel}','{jeruk, mangga, apel, pisang}']},
+{q:'Diketahui A = {jeruk, mangga, apel} dan B = {mangga, apel, pisang}. Hasil A − B adalah ....',o:['{pisang}','{mangga, apel}','{jeruk, pisang}','{jeruk}']},
+{q:'Diketahui A = {jeruk, mangga, apel} dan B = {mangga, apel, pisang}. Hasil B − A adalah ....',o:['{jeruk}','{mangga, apel}','{jeruk, pisang}','{pisang}']},
+{q:'Diketahui A = {1, 2, 3} dan B = {3, 4, 5}. Hasil A ∪ B adalah ....',o:['{1, 2, 3, 4, 5}','{3}','{1, 2}','{4, 5}']},
+{q:'Diketahui A = {1, 2, 3} dan B = {3, 4, 5}. Hasil A ∩ B adalah ....',o:['{1, 2, 3, 4, 5}','{1, 2}','{3}','{4, 5}']},
+{q:'Diketahui A = {1, 2, 3} dan B = {3, 4, 5}. Hasil A − B adalah ....',o:['{3}','{1, 2}','{4, 5}','{1, 2, 3, 4, 5}']},
+{q:'Diketahui A = {1, 2, 3} dan B = {3, 4, 5}. Hasil B − A adalah ....',o:['{1, 2}','{3}','{1, 2, 4, 5}','{4, 5}']},
+{q:'Diketahui A = {2, 4, 6, 8} dan B = {4, 8, 10}. Hasil A ∪ B adalah ....',o:['{2, 4, 6, 8, 10}','{4, 8}','{2, 6}','{10}']},
+{q:'Diketahui A = {2, 4, 6, 8} dan B = {4, 8, 10}. Hasil A ∩ B adalah ....',o:['{2, 6, 10}','{2, 4, 6, 8, 10}','{4, 8}','{2, 6}']},
+{q:'Diketahui A = {2, 4, 6, 8} dan B = {4, 8, 10}. Hasil A − B adalah ....',o:['{4, 8}','{2, 6}','{10}','{2, 4, 6, 8, 10}']},
+{q:'Diketahui A = {2, 4, 6, 8} dan B = {4, 8, 10}. Hasil B − A adalah ....',o:['{2, 6}','{4, 8}','{2, 4, 6, 8, 10}','{10}']},
+{q:'Diketahui A = {apel, jeruk, mangga} dan B = {jeruk, mangga, semangka}. Hasil A ∪ B adalah ....',o:['{apel, jeruk, mangga, semangka}','{jeruk, mangga}','{apel}','{semangka}']},
+{q:'Diketahui A = {apel, jeruk, mangga} dan B = {jeruk, mangga, semangka}. Hasil A ∩ B adalah ....',o:['{apel, semangka}','{apel, jeruk, mangga, semangka}','{jeruk, mangga}','{apel}']},
+{q:'Diketahui A = {apel, jeruk, mangga} dan B = {jeruk, mangga, semangka}. Hasil A − B adalah ....',o:['{semangka}','{apel}','{jeruk, mangga}','{apel, semangka}']},
+{q:'Diketahui A = {apel, jeruk, mangga} dan B = {jeruk, mangga, semangka}. Hasil B − A adalah ....',o:['{apel}','{jeruk, mangga}','{apel, semangka}','{semangka}']},
+{q:'Nilai ulangan Rani adalah 80, 90, dan 70. Rata-ratanya adalah ....',o:['80','75','85','90']},
+{q:'Nilai Andi adalah 70, 80, 90, dan 100. Rata-ratanya adalah ....',o:['80','85','90','95']},
+{q:'Nilai Budi adalah 75, 85, dan 80. Rata-ratanya adalah ....',o:['75','85','80','90']},
+{q:'Nilai Siti adalah 60, 70, 80, dan 90. Rata-ratanya adalah ....',o:['70','75','80','85']},
+{q:'Nilai Dika adalah 80, 80, 90, 70, dan 80. Rata-ratanya adalah ....',o:['80','75','85','90']},
+{q:'Seorang siswa memperoleh nilai 70, 80, 85, dan 85. Rata-ratanya adalah ....',o:['75','80','85','90']},
+{q:'Nilai lima tugas adalah 70, 75, 80, 85, dan 90. Rata-ratanya adalah ....',o:['75','85','80','90']},
+{q:'Nilai ulangan Riko adalah 65, 75, 85, dan 95. Rata-ratanya adalah ....',o:['75','85','90','80']},
+{q:'Nilai empat mata pelajaran adalah 80, 85, 75, dan 100. Rata-ratanya adalah ....',o:['85','80','90','95']},
+{q:'Nilai lima siswa adalah 60, 70, 80, 90, dan 100. Rata-ratanya adalah ....',o:['75','80','85','90']}
+];
+const answerKey=[1,2,0,3,0,1,1,3,0,2,1,2,0,3,1,2,3,3,0,2,1,3,0,2,1,3,0,2,1,3,0,1,2,1,0,1,2,3,0,1];
+
+function getSavedState(){try{return JSON.parse(localStorage.getItem(STATE_KEY)||'null')}catch(e){return null}}
+function saveState(){examState={student,answers,deadline,submitted,started:true,focusViolations};try{localStorage.setItem(STATE_KEY,JSON.stringify(examState))}catch(e){alert('Browser tidak dapat menyimpan data.')}}
+function setLock(v){try{localStorage.setItem(LOCK_KEY,v)}catch(e){}}
+function getLock(){try{return localStorage.getItem(LOCK_KEY)}catch(e){return null}}
+function formatDate(v){if(!v)return '-';return new Date(v+'T12:00:00').toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})}
+function todayString(){const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10)}
+$('examDate').value=todayString();
+
+function renderQuestions(){
+ const root=$('questions');root.innerHTML='';
+ questions.forEach((item,i)=>{
+  const article=document.createElement('article');article.className='question';article.id='question-'+i;
+  const h=document.createElement('h3');h.textContent=(i+1)+'. '+item.q;article.appendChild(h);
+  const opts=document.createElement('div');opts.className='options';
+  item.o.forEach((txt,j)=>{
+   const label=document.createElement('label');label.className='option'+(Number(answers[i])===j?' selected':'');
+   const input=document.createElement('input');input.type='radio';input.name='question-'+i;input.value=j;input.checked=answers[i]!==undefined&&Number(answers[i])===j;input.disabled=submitted;input.addEventListener('change',()=>choose(i,j));
+   const span=document.createElement('span');span.textContent=String.fromCharCode(65+j)+'. '+txt;
+   label.append(input,span);opts.appendChild(label);
+  });
+  article.appendChild(opts);root.appendChild(article);
+ });
+}
+function choose(i,j){if(submitted)return;answers[i]=j;saveState();updateProgress();const q=$('question-'+i);if(q)q.querySelectorAll('.option').forEach((l,n)=>l.classList.toggle('selected',n===j))}
+function updateProgress(){const n=Object.keys(answers).filter(k=>Number.isInteger(Number(answers[k]))&&Number(answers[k])>=0&&Number(answers[k])<=3).length;$('progressText').textContent=`Terjawab ${n} dari ${questions.length} soal`;$('progressPercent').textContent=Math.round(n/questions.length*100)+'%';$('progressFill').style.width=(n/questions.length*100)+'%'}
+
+function updateFocusWarning(msg){
+ const box=$('focusWarning');box.style.display='block';box.innerHTML='⚠️ <b>PERINGATAN MODE FOKUS</b><br>'+msg+'<br>Jumlah peringatan: <strong>'+focusViolations+'</strong>';
+}
+function recordFocusViolation(msg){
+ if(!focusGuardActive||submitted)return;
+ const now=Date.now();if(now-lastFocusEvent<1500)return;lastFocusEvent=now;
+ focusViolations++;updateFocusWarning(msg);saveState();
+}
+function enableFocusGuard(){
+ if(submitted)return;focusGuardActive=true;
+ try{history.pushState({examFocus:true},'',location.href)}catch(e){}
+ updateFocusWarning('Mode fokus aktif. Tetap berada di halaman ujian.');
+}
+function disableFocusGuard(){focusGuardActive=false}
+window.addEventListener('popstate',()=>{
+ if(!focusGuardActive||submitted)return;
+ try{history.pushState({examFocus:true},'',location.href)}catch(e){}
+ recordFocusViolation('Tombol kembali terdeteksi. Tetap di halaman ujian.');
+});
+window.addEventListener('beforeunload',e=>{
+ if(!focusGuardActive||submitted)return;
+ e.preventDefault();e.returnValue='';
+});
+document.addEventListener('visibilitychange',()=>{
+ if(focusGuardActive&&!submitted&&document.visibilityState==='hidden')recordFocusViolation('Halaman ujian tidak aktif. Segera kembali ke ujian.');
+});
+window.addEventListener('blur',()=>{
+ if(focusGuardActive&&!submitted)recordFocusViolation('Jendela kehilangan fokus. Periksa kembali halaman ujian.');
+});
+
+function startExam(){
+if (window.startExamFocusMode) window.startExamFocusMode();
+ if(getLock()){checkExistingExam();return}
+ const name=$('studentName').value.trim(),className=$('studentClass').value,date=$('examDate').value;
+ if(!name||!className||!date){alert('Lengkapi nama, kelas, dan tanggal ujian terlebih dahulu.');return}
+ student={name,className,date};answers={};submitted=false;focusViolations=0;deadline=Date.now()+EXAM_DURATION;setLock('started');saveState();showQuiz();
+}
+function showQuiz(){
+ $('setup').classList.add('hidden');$('resultArea').classList.add('hidden');$('quiz').classList.remove('hidden');
+ $('studentLabel').textContent='👤 '+student.name+' • '+student.className;
+ $('submitBtn').disabled=submitted;$('saveBtn').disabled=submitted;
+ renderQuestions();updateProgress();startTimer();if(!submitted)enableFocusGuard();
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+if (window.stopExamFocusMode) window.stopExamFocusMode();
+function startTimer(){clearInterval(timerInterval);updateTimer();if(!submitted)timerInterval=setInterval(updateTimer,1000)}
+function updateTimer(){
+ if(submitted||!deadline)return;
+ const rem=deadline-Date.now();
+ if(rem<=0){$('timer').textContent='⏱️ WAKTU HABIS';clearInterval(timerInterval);submitExam(true);return}
+ const s=Math.ceil(rem/1000);$('timer').textContent='⏱️ '+String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');$('timer').style.background=rem<=300000?'#ffe0e0':'';
+}
+function calculateResults(){
+ let correct=0,answered=0;
+ questions.forEach((_,i)=>{if(answers[i]!==undefined&&answers[i]!==null&&answers[i]!==''){answered++;if(Number(answers[i])===answerKey[i])correct++}});
+ return {correct,wrong:answered-correct,empty:questions.length-answered,score:correct*2};
+}
+function lockExam(){
+ submitted=true;disableFocusGuard();clearInterval(timerInterval);setLock('finished');
+ document.querySelectorAll('#questions input').forEach(i=>i.disabled=true);$('submitBtn').disabled=true;$('saveBtn').disabled=true;
+}
+function submitExam(expired=false){
+ if(submitted)return;
+ const count=Object.keys(answers).filter(k=>Number.isInteger(Number(answers[k]))&&Number(answers[k])>=0&&Number(answers[k])<=3).length;
+ if(!expired&&!confirm(`Sudah menjawab ${count} dari ${questions.length} soal.\nJawaban kosong akan dihitung kosong.\n\nYakin ingin mengumpulkan ujian?`))return;
+ lockExam();saveState();showResult(expired);
+}
+function showResult(expired=false){
+ const r=calculateResults();$('quiz').classList.add('hidden');$('setup').classList.add('hidden');$('resultArea').classList.remove('hidden');
+ $('scoreValue').textContent=r.score;$('correctValue').textContent=r.correct;$('wrongValue').textContent=r.wrong;$('emptyValue').textContent=r.empty;
+ $('resultName').textContent=student.name||'-';$('resultClass').textContent=student.className||'-';$('resultDate').textContent=formatDate(student.date);$('resultStatus').textContent=expired?'Selesai — waktu habis':'Selesai';
+ $('resultMessage').textContent=expired?'Waktu habis. Hasil dihitung berdasarkan jawaban tersimpan.':'Ujian berhasil dikumpulkan. Berikut hasil pengerjaanmu.';
+ $('lockNotice').textContent='Ujian telah selesai dan terkunci. Untuk mengulang, mintalah kode izin kepada guru.';
+ $('teacherUnlockArea').classList.remove('hidden');$('teacherCode').value='';$('unlockMessage').textContent='';saveState();window.scrollTo({top:0,behavior:'smooth'});
+}
+function checkExistingExam(){
+ const state=getSavedState(),lock=getLock();if(!lock)return false;
+ if(!state||!state.student){
+  $('setup').classList.add('hidden');$('quiz').classList.add('hidden');$('resultArea').classList.remove('hidden');
+  $('captureArea').innerHTML='<div class="result-head"><h2>UJIAN TERKUNCI</h2><p>Data ujian tidak ditemukan. Hubungi guru/pengawas.</p></div>';
+  $('teacherUnlockArea').classList.add('hidden');document.querySelectorAll('#resultArea button').forEach(b=>b.disabled=true);return true;
+ }
+ student=state.student;answers=state.answers||{};deadline=Number(state.deadline)||0;submitted=!!state.submitted;focusViolations=Number(state.focusViolations)||0;
+ if(lock==='finished'||submitted){submitted=true;showResult(false);$('resultStatus').textContent='Selesai';return true}
+ if(deadline&&Date.now()>=deadline){submitted=false;submitExam(true);return true}
+ if(!deadline){setLock('finished');submitted=true;saveState();showResult(false);$('resultStatus').textContent='Status ujian tidak valid — terkunci';return true}
+ submitted=false;showQuiz();return true;
+}
+function unlockSecondAttempt(){
+ const code=$('teacherCode').value.trim(),msg=$('unlockMessage');
+ if(code!==TEACHER_CODE){msg.textContent='❌ Kode izin salah. Hubungi guru.';msg.style.color='#d92d20';return}
+ if(getLock()!=='finished'){msg.textContent='Ujian belum selesai atau status tidak sesuai.';msg.style.color='#d92d20';return}
+ if(!confirm('Izin guru diterima.\nUjian akan dibuka dari awal. Hasil sebelumnya pada browser ini akan digantikan.\n\nLanjutkan?'))return;
+ clearInterval(timerInterval);
+ try{localStorage.removeItem(STATE_KEY);localStorage.removeItem(LOCK_KEY)}catch(e){msg.textContent='Penyimpanan gagal dihapus.';return}
+ student={name:'',className:'',date:''};answers={};deadline=0;submitted=false;examState=null;focusViolations=0;focusGuardActive=false;lastFocusEvent=0;
+ $('studentName').value='';$('studentClass').value='';$('examDate').value=todayString();$('teacherCode').value='';$('unlockMessage').textContent='';
+ $('resultArea').classList.add('hidden');$('quiz').classList.add('hidden');$('setup').classList.remove('hidden');
+ $('startBtn').disabled=false;$('submitBtn').disabled=false;$('saveBtn').disabled=false;$('timer').textContent='⏱️ 40:00';$('timer').style.background='';
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+$('startBtn').addEventListener('click',startExam);
+$('saveBtn').addEventListener('click',()=>{if(!submitted){saveState();alert('Jawaban tersimpan pada browser ini.')}});
+$('submitBtn').addEventListener('click',()=>submitExam(false));
+$('unlockExamBtn').addEventListener('click',unlockSecondAttempt);
+$('printBtn').addEventListener('click',()=>window.print());
+
+$('imageBtn').addEventListener('click',()=>{
+ const r=calculateResults(),c=document.createElement('canvas');c.width=1000;c.height=780;
+ const ctx=c.getContext('2d');if(!ctx){alert('Browser tidak mendukung gambar.');return}
+ const g=ctx.createLinearGradient(0,0,1000,780);g.addColorStop(0,'#edf4ff');g.addColorStop(1,'#fff');ctx.fillStyle=g;ctx.fillRect(0,0,1000,780);
+ ctx.fillStyle='#155eef';ctx.fillRect(0,0,1000,155);ctx.textAlign='center';ctx.fillStyle='#fff';ctx.font='bold 38px Arial';ctx.fillText('HASIL ULANGAN INFORMATIKA',500,65);ctx.font='22px Arial';ctx.fillText('Berpikir Komputasional • Fungsi • Himpunan',500,110);
+ ctx.fillStyle='#14213d';ctx.font='bold 28px Arial';ctx.fillText(student.name||'-',500,215);ctx.font='22px Arial';ctx.fillText('Kelas: '+(student.className||'-'),500,255);ctx.fillText('Tanggal: '+formatDate(student.date),500,292);
+ ctx.fillStyle='#155eef';ctx.font='bold 112px Arial';ctx.fillText(String(r.score),500,435);ctx.fillStyle='#53617b';ctx.font='24px Arial';ctx.fillText('NILAI DARI 80',500,475);
+ [['Benar',r.correct],['Salah',r.wrong],['Kosong',r.empty]].forEach((s,i)=>{const x=[220,500,780][i];ctx.fillStyle='#fff';ctx.fillRect(x-105,535,210,100);ctx.strokeStyle='#d9e3f4';ctx.strokeRect(x-105,535,210,100);ctx.fillStyle='#14213d';ctx.font='bold 32px Arial';ctx.fillText(String(s[1]),x,578);ctx.fillStyle='#64748b';ctx.font='20px Arial';ctx.fillText(s[0],x,612)});
+ ctx.fillStyle='#64748b';ctx.font='18px Arial';ctx.fillText('Ulangan Informatika • 40 soal • Nilai benar × 2',500,710);
+ c.toBlob(blob=>{if(!blob){alert('Gambar gagal dibuat. Gunakan fitur cetak/PDF.');return}const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='hasil-ulangan-informatika.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)},'image/png');
+});
+
+const music=$('bgMusic'),musicBtn=$('musicBtn');let musicOn=false;
+musicBtn.addEventListener('click',async()=>{
+ if(!musicOn){try{await music.play();musicOn=true;musicBtn.textContent='♫ Musik: ON'}catch(e){alert('Pastikan file musik.mp3 berada di folder yang sama.')}}else{music.pause();musicOn=false;musicBtn.textContent='♫ Musik: OFF'}
+});
+if(!checkExistingExam())$('setup').classList.remove('hidden');
+
+/* ANIMASI HUJAN KODE DIGITAL MERAH */
+(function(){
+ const canvas=$('binaryRain'),ctx=canvas.getContext('2d');if(!ctx)return;
+ const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');let w=0,h=0,drops=[],id=null;const size=16,chars='01ABCDEFGHIJKLMNOPQRSTUVWXYZ<>/{}[]#$%';
+ function resize(){const dpr=Math.min(devicePixelRatio||1,2);w=innerWidth;h=innerHeight;canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);canvas.style.width=w+'px';canvas.style.height=h+'px';ctx.setTransform(dpr,0,0,dpr,0,0);drops=Array.from({length:Math.ceil(w/size)},()=>Math.random()*(h/size))}
+ function draw(){ctx.fillStyle='rgba(3,8,20,0.12)';ctx.fillRect(0,0,w,h);ctx.font='bold '+size+'px monospace';for(let i=0;i<drops.length;i++){const y=drops[i]*size;ctx.fillStyle=Math.random()>.94?'#ff7777':'#ff2020';ctx.shadowColor='#f00';ctx.shadowBlur=8;ctx.fillText(chars[Math.floor(Math.random()*chars.length)],i*size,y);ctx.shadowBlur=0;if(y>h&&Math.random()>.975)drops[i]=0;else drops[i]+=.45+Math.random()*.65}id=requestAnimationFrame(draw)}
+ function stop(){if(id!==null){cancelAnimationFrame(id);id=null}}
+ function start(){stop();if(reduced.matches){ctx.clearRect(0,0,w,h);return}id=requestAnimationFrame(draw)}
+ window.addEventListener('resize',()=>{resize();start()});if(reduced.addEventListener)reduced.addEventListener('change',start);resize();start();
+})();
+
+
+(() => {
+  const warning = document.getElementById("hackedWarning");
+  const countDisplay = document.getElementById("hackedCount");
+  const returnButton = document.getElementById("returnToExam");
+  const canvas = document.getElementById("binaryRain");
+
+  if (!warning || !countDisplay || !returnButton || !canvas) return;
+
+  let violations = 0;
+  let examActive = false;
+  let warningOpen = false;
+  let wasHidden = false;
+  let lastWarningAt = 0;
+
+  // Panggil fungsi ini dari fungsi mulai ujian yang sudah ada.
+  window.startExamFocusMode = function () {
+    examActive = true;
+  };
+
+  // Panggil ini ketika ujian selesai atau waktu habis.
+  window.stopExamFocusMode = function () {
+    examActive = false;
+    warning.classList.remove("active");
+    warningOpen = false;
+  };
+
+  function showWarning() {
+    if (!examActive || warningOpen) return;
+
+    const now = Date.now();
+    if (now - lastWarningAt < 1200) return;
+
+    lastWarningAt = now;
+    violations++;
+    warningOpen = true;
+    countDisplay.textContent = violations;
+    warning.classList.add("active");
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    if (!examActive) return;
+
+    if (document.hidden) {
+      wasHidden = true;
+    } else if (wasHidden) {
+      wasHidden = false;
+      showWarning();
+    }
+  });
+
+  window.addEventListener("blur", () => {
+    if (examActive) wasHidden = true;
+  });
+
+  window.addEventListener("focus", () => {
+    if (examActive && wasHidden && !document.hidden) {
+      wasHidden = false;
+      showWarning();
+    }
+  });
+
+  returnButton.addEventListener("click", () => {
+    warning.classList.remove("active");
+    warningOpen = false;
+  });
+
+  // Hujan biner merah.
+  const ctx = canvas.getContext("2d");
+  const chars = "01";
+  const fontSize = 15;
+  let columns = 0;
+  let drops = [];
+
+  function resizeRain() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.floor(window.innerWidth * dpr);
+    canvas.height = Math.floor(window.innerHeight * dpr);
+    canvas.style.width = window.innerWidth + "px";
+    canvas.style.height = window.innerHeight + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    columns = Math.ceil(window.innerWidth / fontSize);
+    drops = Array.from(
+      { length: columns },
+      () => Math.random() * -window.innerHeight / fontSize
+    );
+  }
+
+  function drawRain() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    ctx.fillStyle = "rgba(0, 0, 0, 0.12)";
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+      const digit = chars[Math.floor(Math.random() * chars.length)];
+      const x = i * fontSize;
+      const y = drops[i] * fontSize;
+
+      ctx.fillStyle = Math.random() > 0.94 ? "#ffffff" : "#ff2020";
+      ctx.fillText(digit, x, y);
+
+      if (y > height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+
+      drops[i] += 0.65 + Math.random() * 0.65;
+    }
+
+    requestAnimationFrame(drawRain);
+  }
+
+  window.addEventListener("resize", resizeRain);
+  resizeRain();
+  drawRain();
+})();
+
+</script>
+</body>
+</html>
